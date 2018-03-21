@@ -37,4 +37,4 @@
       shell: docker container run --rm --name ucp -v /var/run/docker.sock:/var/run/docker.sock docker/ucp:2.2.6 install --host-address {{ ansible_default_ipv4['address'] }} --san {{ ansible_fqdn }}.docker.lab
       register: install_ucp
     - name: Output UCP installation
-      debug: var="{{ install_ucp.stdout_lines }}"
+      debug: var="{{ install_ucp.stdout }}"
