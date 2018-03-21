@@ -10,7 +10,7 @@ Download your docker licence file and put it under $HOME
 ```
 git clone git@github.com:rjes/CaaS.git
 ```
-Review the files so everything matches your environment (make sure you have your own URI to docker-ee repo)
+Review the files so everything matches your environment (make sure you have your own URI to docker-ee repo in `hosts` file)
 ```
 cp ~/docker_subscription.lic .
 vagrant up
