@@ -18,6 +18,7 @@ Review the files so everything matches your environment, you need to add your li
 ```
 cp ~/docker_subscription.lic .
 echo 'docker_url: "YOUR DOCKER-EE URL"' > group_vars/all/secrets.yml
+echo 'public_key: "YOUR SSH PUBLIC KEY"' >> group_vars/all/main.yml
 ```
 Start and provision the virtual machines:
 ```
