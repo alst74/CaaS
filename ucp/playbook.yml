@@ -1,0 +1,37 @@
+---
+- name: Setup docker
+  tags: base
+  hosts: all
+  become: true
+  become_method: sudo
+  become_user: root
+  tasks:
+    - name: Install prerequirements
+      yum: name="{{ item }}" state=installed
+      with_items:
+        - yum-utils
+        - device-mapper-persistent-data
+        - lvm2
+    - name: Setup docker repo
+      yum_repository:
+        name: docker
+        description: docker-ee
+        baseurl: "{{ docker_url }}/centos/$releasever/$basearch/stable/"
+        gpgkey: "{{ docker_url }}/gpg"
+        gpgcheck: yes
+    - name: Install docker-ee
+      yum: name="{{ item }}" state=installed
+      with_items:
+        - docker-ee
+    - name: Start and enable docker-ee
+      service: name=docker state=started enabled=yes
+
+- name: Setup UCP
+  tags: ucp
+  hosts: controllers
+  become: true
+  become_method: sudo
+  become_user: root
+  tasks:
+    - name: Install UCP
+      shell: docker container run --rm --name ucp -v /var/run/docker.sock:/var/run/docker.sock docker/ucp:2.2.6 install --host-address {{ ansible_default_ipv4['address'] }} --san {{ ansible_fqdn }}.docker.lab
