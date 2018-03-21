@@ -5,14 +5,21 @@ Requirements:
 - Vagrant
 - Virtualbox
 
+
+At the momemnt, it will bring up one manager/controller and 2 workers
+
 ## Initial setup
 Download your docker licence file and put it under $HOME
 ```
 git clone git@github.com:rjes/CaaS.git
 ```
-Review the files so everything matches your environment (make sure you have your own URI to docker-ee repo in `hosts` file)
+Review the files so everything matches your environment, you need to add your license file and the URI to your docker-ee repo:
 ```
 cp ~/docker_subscription.lic .
+echo 'docker_url: "YOUR DOCKER-EE URL"' > group_vars/all/secrets.yml
+```
+Start and provision the virtual machines:
+```
 vagrant up
 ```
 ### UCP (docker enterprise dashboard)
@@ -20,3 +27,8 @@ vagrant up
 ansible-playbook -i hosts ucp/playbook.yml
 ```
 
+### Vagrant commands
+To ssh to the controller node:
+```
+vagrant ssh controller1
+```
