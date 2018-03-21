@@ -8,9 +8,9 @@ Requirements:
 ## Initial setup
 Download your docker licence file and put it under $HOME
 ```
-git clone <this repo> CaaS
+git clone git@github.com:rjes/CaaS.git
 ```
-Review the files so everything matches your environment
+Review the files so everything matches your environment 
 ```
 cp ~/docker_subscription.lic .
 vagrant up
