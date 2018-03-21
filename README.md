@@ -4,6 +4,7 @@ This repo will have playbooks for simple setup of different lab environments
 Requirements:
 - Vagrant
 - Virtualbox
+- ansible
 
 
 At the momemnt, it will bring up one manager/controller and 2 workers
