@@ -33,8 +33,20 @@
   become_method: sudo
   become_user: root
   tasks:
+    - name: Check if UCP is running
+      changed_when: false
+      register: ucp_running
+      command: docker ps --filter "name=ucp-swarm-manager" --format '{{ '{{' }}.Names{{ '}}' }}'
+
     - name: Install UCP
+      when: 'not "ucp-swarm-manager" in ucp_running.stdout_lines'
       shell: docker container run --rm --name ucp -v /var/run/docker.sock:/var/run/docker.sock docker/ucp:2.2.6 install --host-address {{ ansible_default_ipv4['address'] }} --san {{ ansible_fqdn }}.docker.lab
       register: install_ucp
+
+    - name: UCP is installed
+      when: '"ucp-swarm-manager" in ucp_running.stdout_lines'
+      debug: msg='To uninstall UCP, run docker container run --rm --name ucp -v /var/run/docker.sock:/var/run/docker.sock docker/ucp:2.2.6 uninstall-ucp'
+
     - name: Output UCP installation
-      debug: var="{{ install_ucp.stdout }}"
+      when: install_ucp.stderr is defined
+      debug: var=install_ucp.stderr_lines
