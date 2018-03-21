@@ -6,6 +6,9 @@ Requirements:
 - Virtualbox
 - ansible
 
+Todo:
+- Setup simple swarm mode with managers and workers
+- Add license file in ucp/playbook.yml
 
 At the momemnt, it will bring up one manager/controller and 2 workers
 
