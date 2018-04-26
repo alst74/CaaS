@@ -11,6 +11,12 @@
         - yum-utils
         - device-mapper-persistent-data
         - lvm2
+        - epel-release
+        - kubernetes-client
+    - name: Install packages from epel
+      yum: name="{{ item }}" state=installed update_cache=yes
+      with_items:
+        - jq
     - name: Setup docker repo
       yum_repository:
         name: docker
@@ -18,6 +24,10 @@
         baseurl: "{{ docker_url }}/centos/$releasever/$basearch/stable/"
         gpgkey: "{{ docker_url }}/gpg"
         gpgcheck: yes
+    - name: Disable swap
+      command: swapoff -a
+    - name: Comment out swap from fstab
+      command: sed -i -e 's~\(.*swap.*\)~#\1~g' /etc/fstab
     - name: Install docker-ee
       yum: name="{{ item }}" state=installed
       with_items:
@@ -36,3 +46,9 @@
         mode: 0644
       with_items:
         - vagrant
+    - name: Add vagrant to docker group
+      user:
+        append: yes
+        groups: docker
+        name: vagrant
+
