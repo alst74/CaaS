@@ -8,13 +8,13 @@ Workers=2
         ansible.playbook = "playbook.yml"
       end
       machine.vm.hostname = "controller#{controller_id}"
-      machine.vm.network "private_network", ip: "192.168.0.#{20+controller_id}"
+      machine.vm.network "private_network", ip: "192.168.11.#{20+controller_id}"
       machine.vm.box = "centos/7"
       machine.vm.provider :virtualbox do |vb|
         vb.customize [
           "modifyvm", :id,
           "--cpuexecutioncap", "50",
-          "--memory", "4096",
+          "--memory", "5120",
         ]
       end
     end
@@ -23,14 +23,17 @@ end
 (1..Workers).each do |workers_id|
   Vagrant.configure("2") do |config|
     config.vm.define "worker#{workers_id}" do |machine|
+      config.vm.provision "ansible" do |ansible|
+        ansible.playbook = "playbook.yml"
+      end
       machine.vm.hostname = "worker#{workers_id}"
-      machine.vm.network "private_network", ip: "192.168.0.#{50+workers_id}"
+      machine.vm.network "private_network", ip: "192.168.11.#{50+workers_id}"
       machine.vm.box = "centos/7"
       machine.vm.provider :virtualbox do |vb|
         vb.customize [
           "modifyvm", :id,
           "--cpuexecutioncap", "50",
-          "--memory", "1024",
+          "--memory", "5120",
         ]
       end
     end
