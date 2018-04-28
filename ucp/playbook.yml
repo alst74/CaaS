@@ -32,6 +32,8 @@
   become: true
   become_method: sudo
   become_user: root
+  vars:
+    ucp_version: latest
   tasks:
     - name: Check if UCP is running
       changed_when: false
@@ -45,7 +47,7 @@
 
     - name: UCP is installed
       when: '"ucp-swarm-manager" in ucp_running.stdout_lines'
-      debug: msg='To uninstall UCP, run docker container run --rm --name ucp -v /var/run/docker.sock:/var/run/docker.sock docker/ucp:2.2.6 uninstall-ucp'
+      debug: msg='To uninstall UCP, run docker container run --rm --name ucp -v /var/run/docker.sock:/var/run/docker.sock docker/ucp:{{ ucp_version }} uninstall-ucp'
 
     - name: Output UCP installation
       when: install_ucp.stderr is defined
