@@ -12,6 +12,8 @@ Todo:
 - [x] Setup simple swarm mode with managers and workers
 - [ ] Add license file in ucp/playbook.yml
 - [ ] Some exercises to get UCP and DTR up and running
+- [ ] UCP multimaster with least 3 nodes and 1/2 workers
+- [ ] DTR replicas (2/3 replicas) and a smooth way of setting up a good shared filesystem/object store.
 
 At the momemnt, it will bring up one manager/controller and 2 workers and it will be based on CentOS. Maybe more dists later on if needed/requested.
 Pre steps:
