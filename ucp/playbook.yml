@@ -34,6 +34,9 @@
   become_user: root
   vars:
     ucp_version: latest
+    admin_username: admin
+    admin_password: admin123
+
   tasks:
     - name: Check if UCP is running
       changed_when: false
@@ -42,7 +45,7 @@
 
     - name: Install UCP
       when: 'not "ucp-swarm-manager" in ucp_running.stdout_lines'
-      shell: docker container run --rm --name ucp -v /var/run/docker.sock:/var/run/docker.sock docker/ucp:2.2.6 install --host-address {{ ansible_default_ipv4['address'] }} --san {{ ansible_fqdn }}.docker.lab
+      shell: docker container run --rm --name ucp -v /var/run/docker.sock:/var/run/docker.sock docker/ucp:2.2.6 install --host-address {{ ansible_default_ipv4['address'] }} --san controller1.docker.lab --san worker1.docker.lab --san worker2.docker.lab --san controller1 --san worker1 --san worker2 --admin-username {{ admin_username }} --admin_password {{ admin_password }} --disable-tracking --disable-usage --security-opt label=disable
       register: install_ucp
 
     - name: UCP is installed
