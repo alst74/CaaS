@@ -14,6 +14,7 @@ Todo:
 - [ ] Some exercises to get UCP and DTR up and running
 - [ ] UCP multimaster with least 3 nodes and 1/2 workers
 - [ ] DTR replicas (2/3 replicas) and a smooth way of setting up a good shared filesystem/object store.
+- [ ] Rename controller1 to manager1 instead
 
 At the momemnt, it will bring up one manager/controller and 2 workers and it will be based on CentOS. Maybe more dists later on if needed/requested.
 Pre steps:
@@ -46,7 +47,8 @@ ansible-playbook -i hosts ucp/playbook.yml
 ansible-playbook -i hosts dtr/playbook.yml
 ```
 
-### Various command
+### Login
+#### SSH
 To ssh to the controller node:
 ```
 vagrant ssh controller1
@@ -55,5 +57,7 @@ or:
 ```
 ssh -i /path/to/your/private_key vagrant@192.168.11.21 (or .51/.52 for workers)
 ```
-sudo is password less
+sudo is password-less
+#### UCP/DTR
+The password for UCP is defined as a variable in ucp/playbook.yml (as time of writing: admin/admin123)
 
