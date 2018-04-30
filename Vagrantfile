@@ -13,8 +13,9 @@ Workers=2
       machine.vm.provider :virtualbox do |vb|
         vb.customize [
           "modifyvm", :id,
-          "--cpuexecutioncap", "50",
+          "--cpuexecutioncap", "75",
           "--memory", "5120",
+          "--cpus", "2",
         ]
       end
     end
@@ -34,6 +35,7 @@ end
           "modifyvm", :id,
           "--cpuexecutioncap", "50",
           "--memory", "5120",
+          "--cpus", "2",
         ]
       end
     end
