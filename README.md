@@ -6,7 +6,8 @@ Requirements:
 - Virtualbox
 - ansible
 
-You will get a docker swarm (docker-ee engine) and an easy way for installing UCP and/or DTR.
+You will get a docker swarm (docker-ee engine) and an easy way for installing UCP and/or DTR.<br>
+As all this is based on Virtualbox and trial license, you shouldn't run this in production without proper knowledge ;D<br>
 
 Todo:
 - [x] Setup simple swarm mode with managers and workers
@@ -15,6 +16,7 @@ Todo:
 - [ ] UCP multimaster with least 3 nodes and 1/2 workers
 - [ ] DTR replicas (2/3 replicas) and a smooth way of setting up a good shared filesystem/object store.
 - [ ] Rename controller1 to manager1 instead
+- [ ] Fix so we can run this repo on debian and ubuntu
 
 At the momemnt, it will bring up one manager/controller and 2 workers and it will be based on CentOS. Maybe more dists later on if needed/requested.
 Pre steps:
