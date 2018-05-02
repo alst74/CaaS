@@ -35,11 +35,16 @@ services:
         constraints:
           #- "engine.labels.jenkins == master"
           - node.hostname == worker1
+    extra_hosts:
+      - "dtr.docker.lab:192.168.11.51"
     ports:
       - 8080:8080
       - 50000:50000
     volumes:
       - jenkins_home:/var/jenkins_home
+      - /usr/bin/docker:/usr/bin/docker:ro 
+      - /lib64/libltdl.so.7:/lib/x86_64-linux-gnu/libltdl.so.7:ro
+      - /var/run/docker.sock:/var/run/docker.sock
 
 volumes:
   jenkins_home:
