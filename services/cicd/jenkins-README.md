@@ -2,7 +2,9 @@
 ### Todo
 
 [ ] Prebake Jenkins with needed configuration files
+
 [ ] Rewrite this file, not 5 min before bedtime.
+
 [ ] Setup webhook and all things with API instead of manual actions.
 
 
