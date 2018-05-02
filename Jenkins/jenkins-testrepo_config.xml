@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>-1</daysToKeep>
+        <numToKeep>3</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+  </properties>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.8.0">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <url>http://gitea:3000/root/testrepo.git</url>
+        <credentialsId>ed1dece5-f206-4b35-ba15-908612a42a36</credentialsId>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>*/master</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <submoduleCfg class="list"/>
+    <extensions/>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers>
+    <hudson.triggers.SCMTrigger>
+      <spec>* * * * *</spec>
+      <ignorePostCommitHooks>false</ignorePostCommitHooks>
+    </hudson.triggers.SCMTrigger>
+  </triggers>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>
+export UCP_FQDN=192.168.11.21
+AUTHTOKEN=$(curl -sk -d &apos;{&quot;username&quot;:&quot;admin&quot;,&quot;password&quot;:&quot;admin123&quot;}&apos; https://${UCP_FQDN}/auth/login | jq -r .auth_token)
+curl -k -H &quot;Authorization: Bearer $AUTHTOKEN&quot; -s https://${UCP_FQDN}/api/clientbundle -o bundle.zip &amp;&amp; unzip bundle.zip
+export DOCKER_TLS_VERIFY=1
+export COMPOSE_TLS_VERSION=TLSv1_2
+export DOCKER_CERT_PATH=$PWD
+export DOCKER_HOST=tcp://192.168.11.21:443
+
+sudo docker login -u admin -p admin123 https://dtr.docker.lab
+
+sudo docker build -t mywhoami:${BUILD_ID} .
+sudo docker tag mywhoami:${BUILD_ID} dtr.docker.lab/admin/mywhoami:${BUILD_ID}
+sudo docker push dtr.docker.lab/admin/mywhoami:${BUILD_ID}
+sudo docker tag mywhoami:latest dtr.docker.lab/admin/mywhoami:latest
+sudo docker push dtr.docker.lab/admin/mywhoami:latest</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers>
+    <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.34">
+      <deleteDirs>false</deleteDirs>
+      <cleanupParameter></cleanupParameter>
+      <externalDelete></externalDelete>
+    </hudson.plugins.ws__cleanup.PreBuildCleanup>
+  </buildWrappers>
+</project>
